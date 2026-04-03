@@ -250,3 +250,16 @@ export const createPostLimiter = createRateLimiterMiddleware({
   },
   prefix: "rl:createpost:",
 });
+
+/**
+ * Friend Request: 3 requests per hour per IP
+ */
+export const friendRequestLimiter = createRateLimiterMiddleware({
+  windowMs: parseInt(process.env.RATE_LIMIT_FRIEND_REQUEST_WINDOW_MS, 10) || 60 * 60 * 1000,
+  max: Math.max(parseInt(process.env.RATE_LIMIT_FRIEND_REQUEST_MAX, 10) || 3, 3),
+  message: {
+    text: "Too many friend request attempts. Please try again later.",
+    errorCode: "RATE_LIMITED",
+  },
+  prefix: "rl:friendrequest:",
+});
