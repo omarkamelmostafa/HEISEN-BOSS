@@ -43,12 +43,6 @@ const UserSchema = new Schema(
       minlength: [8, "Password must be at least 8 characters long."],
       select: false, // Never return password in queries by default
     },
-    albums: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Album",
-      },
-    ],
 
     // Enhanced security fields for login system
     lastLogin: {
