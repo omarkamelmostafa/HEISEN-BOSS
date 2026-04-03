@@ -237,3 +237,16 @@ export const avatarUploadLimiter = createRateLimiterMiddleware({
   },
   prefix: "rl:avatar-upload:",
 });
+
+/**
+ * Create Post: 10 requests per 15 minutes per IP
+ */
+export const createPostLimiter = createRateLimiterMiddleware({
+  windowMs: parseInt(process.env.RATE_LIMIT_CREATE_POST_WINDOW_MS, 10) || 15 * 60 * 1000,
+  max: Math.max(parseInt(process.env.RATE_LIMIT_CREATE_POST_MAX, 10) || 10, 10),
+  message: {
+    text: "Too many posts created. Please try again later.",
+    errorCode: "RATE_LIMITED",
+  },
+  prefix: "rl:createpost:",
+});

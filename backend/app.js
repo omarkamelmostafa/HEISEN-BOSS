@@ -40,6 +40,7 @@ import authRoutes from "./routes/auth/auth-routes.js";
 import healthRoutes from "./routes/health/health-routes.js";
 import testRoutes from "./routes/test/test-routes.js";
 import userRoutes from "./routes/user/user-routes.js";
+import postRoutes from "./routes/post/post-routes.js";
 import { mountSwagger } from "./docs/swagger/index.js";
 
 // 🌍 Environment & Core Dependencies
@@ -94,6 +95,7 @@ app.use("/api/v1/health", healthRoutes);
 
 // 🔒 Protected Routes
 app.use("/api/v1/user", userRoutes);
+app.use("/api/v1/posts", postRoutes);
 
 // 🧪 Test Routes (Development only)
 if (process.env.NODE_ENV === "development") {

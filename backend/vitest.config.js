@@ -34,6 +34,12 @@ export default defineConfig({
           include: ["__tests__/integration/**/*.test.js"],
           setupFiles: ["__tests__/integration/setup.js"],
           testTimeout: 30000,
+          pool: "forks",
+          poolOptions: {
+            forks: {
+              singleFork: true,
+            },
+          },
         },
       },
     ],
