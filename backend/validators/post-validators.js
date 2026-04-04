@@ -65,6 +65,8 @@ export const feedQueryValidationRules = [
     .isString()
     .withMessage("Cursor must be a string.")
     .bail()
+    .isMongoId()
+    .withMessage("Cursor must be a valid MongoDB ObjectId.")
     .trim(),
 
   query("limit")

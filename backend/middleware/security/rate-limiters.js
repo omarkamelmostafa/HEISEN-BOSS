@@ -304,14 +304,27 @@ export const friendRequestCancelLimiter = createRateLimiterMiddleware({
 });
 
 /**
- * Unfriend: 10 requests per 15 minutes per IP
+ * Unfriend: 20 requests per 15 minutes per IP
  */
 export const unfriendLimiter = createRateLimiterMiddleware({
   windowMs: parseInt(process.env.RATE_LIMIT_UNFRIEND_WINDOW_MS, 10) || 15 * 60 * 1000,
-  max: Math.max(parseInt(process.env.RATE_LIMIT_UNFRIEND_MAX, 10) || 10, 10),
+  max: Math.max(parseInt(process.env.RATE_LIMIT_UNFRIEND_MAX, 10) || 20, 20),
   message: {
-    text: "Too many unfriend requests. Please try again later.",
+    text: "Too many unfriend attempts. Please try again later.",
     errorCode: "RATE_LIMITED",
   },
   prefix: "rl:unfriend:",
+});
+
+/**
+ * Feed: 60 requests per 15 minutes per IP
+ */
+export const feedLimiter = createRateLimiterMiddleware({
+  windowMs: parseInt(process.env.RATE_LIMIT_FEED_WINDOW_MS, 10) || 15 * 60 * 1000,
+  max: Math.max(parseInt(process.env.RATE_LIMIT_FEED_MAX, 10) || 60, 60),
+  message: {
+    text: "Too many feed requests. Please try again later.",
+    errorCode: "RATE_LIMITED",
+  },
+  prefix: "rl:feed:",
 });
