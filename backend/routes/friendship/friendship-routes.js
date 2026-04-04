@@ -17,6 +17,7 @@ import { handleGetIncomingFriendRequests } from "../../controllers/friendship/ge
 import { handleGetOutgoingFriendRequests } from "../../controllers/friendship/get-outgoing-friend-requests.controller.js";
 import { handleGetFriends } from "../../controllers/friendship/get-friends.controller.js";
 import { handleAcceptFriendRequest } from "../../controllers/friendship/accept-friend-request.controller.js";
+import { handleRejectFriendRequest } from "../../controllers/friendship/reject-friend-request.controller.js";
 
 const router = express.Router();
 
@@ -62,6 +63,16 @@ router.patch(
   friendshipIdValidationRules,
   handleValidationErrors,
   handleAcceptFriendRequest
+);
+
+// PATCH /api/v1/friends/requests/:friendshipId/reject — Reject a friend request
+router.patch(
+  "/requests/:friendshipId/reject",
+  friendRequestDecisionLimiter,
+  authTokenMiddleware,
+  friendshipIdValidationRules,
+  handleValidationErrors,
+  handleRejectFriendRequest
 );
 
 export default router;
