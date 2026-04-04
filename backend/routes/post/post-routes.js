@@ -2,13 +2,14 @@
 
 import express from "express";
 import { authTokenMiddleware } from "../../middleware/auth/authTokenMiddleware.js";
-import { createPostLimiter, feedLimiter, getPostLimiter, updatePostLimiter } from "../../middleware/security/rate-limiters.js";
+import { createPostLimiter, feedLimiter, getPostLimiter, updatePostLimiter, deletePostLimiter } from "../../middleware/security/rate-limiters.js";
 import { createPostValidationRules, feedQueryValidationRules, postIdValidationRules, updatePostValidationRules } from "../../validators/index.js";
 import { handleValidationErrors } from "../../middleware/validation/index.js";
 import { handleCreatePost } from "../../controllers/post/create-post.controller.js";
 import { handleGetFeed } from "../../controllers/post/get-feed.controller.js";
 import { handleGetPost } from "../../controllers/post/get-post.controller.js";
 import { handleUpdatePost } from "../../controllers/post/update-post.controller.js";
+import { handleDeletePost } from "../../controllers/post/delete-post.controller.js";
 
 const router = express.Router();
 
@@ -51,6 +52,16 @@ router.patch(
   updatePostValidationRules,
   handleValidationErrors,
   handleUpdatePost
+);
+
+// DELETE /api/v1/posts/:postId
+router.delete(
+  "/:postId",
+  deletePostLimiter,
+  authTokenMiddleware,
+  postIdValidationRules,
+  handleValidationErrors,
+  handleDeletePost
 );
 
 export default router;
