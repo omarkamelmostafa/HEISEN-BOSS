@@ -341,3 +341,16 @@ export const getPostLimiter = createRateLimiterMiddleware({
   },
   prefix: "rl:getpost:",
 });
+
+/**
+ * Update Post: 10 requests per 15 minutes per IP
+ */
+export const updatePostLimiter = createRateLimiterMiddleware({
+  windowMs: parseInt(process.env.RATE_LIMIT_UPDATE_POST_WINDOW_MS, 10) || 15 * 60 * 1000,
+  max: Math.max(parseInt(process.env.RATE_LIMIT_UPDATE_POST_MAX, 10) || 10, 10),
+  message: {
+    text: "Too many post update attempts. Please try again later.",
+    errorCode: "RATE_LIMITED",
+  },
+  prefix: "rl:updatepost:",
+});
