@@ -6,6 +6,7 @@ import {
   friendRequestLimiter,
   friendListLimiter,
   friendRequestDecisionLimiter,
+  friendRequestCancelLimiter,
 } from "../../middleware/security/rate-limiters.js";
 import {
   sendFriendRequestValidationRules,
@@ -18,6 +19,7 @@ import { handleGetOutgoingFriendRequests } from "../../controllers/friendship/ge
 import { handleGetFriends } from "../../controllers/friendship/get-friends.controller.js";
 import { handleAcceptFriendRequest } from "../../controllers/friendship/accept-friend-request.controller.js";
 import { handleRejectFriendRequest } from "../../controllers/friendship/reject-friend-request.controller.js";
+import { handleCancelFriendRequest } from "../../controllers/friendship/cancel-friend-request.controller.js";
 
 const router = express.Router();
 
@@ -73,6 +75,16 @@ router.patch(
   friendshipIdValidationRules,
   handleValidationErrors,
   handleRejectFriendRequest
+);
+
+// DELETE /api/v1/friends/requests/:friendshipId/cancel — Cancel a sent friend request
+router.delete(
+  "/requests/:friendshipId/cancel",
+  friendRequestCancelLimiter,
+  authTokenMiddleware,
+  friendshipIdValidationRules,
+  handleValidationErrors,
+  handleCancelFriendRequest
 );
 
 export default router;
