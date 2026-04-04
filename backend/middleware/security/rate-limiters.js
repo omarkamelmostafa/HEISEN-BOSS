@@ -265,6 +265,19 @@ export const friendRequestLimiter = createRateLimiterMiddleware({
 });
 
 /**
+ * Friend Request Decision (accept/reject): 20 requests per 15 minutes per IP
+ */
+export const friendRequestDecisionLimiter = createRateLimiterMiddleware({
+  windowMs: parseInt(process.env.RATE_LIMIT_FRIEND_REQUEST_DECISION_WINDOW_MS, 10) || 15 * 60 * 1000,
+  max: Math.max(parseInt(process.env.RATE_LIMIT_FRIEND_REQUEST_DECISION_MAX, 10) || 20, 20),
+  message: {
+    text: "Too many friend request decisions. Please try again later.",
+    errorCode: "RATE_LIMITED",
+  },
+  prefix: "rl:frienddecision:",
+});
+
+/**
  * Friend List: 60 requests per 15 minutes per IP
  */
 export const friendListLimiter = createRateLimiterMiddleware({
