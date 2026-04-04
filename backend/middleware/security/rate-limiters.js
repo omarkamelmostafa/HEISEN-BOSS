@@ -237,3 +237,94 @@ export const avatarUploadLimiter = createRateLimiterMiddleware({
   },
   prefix: "rl:avatar-upload:",
 });
+
+/**
+ * Create Post: 10 requests per 15 minutes per IP
+ */
+export const createPostLimiter = createRateLimiterMiddleware({
+  windowMs: parseInt(process.env.RATE_LIMIT_CREATE_POST_WINDOW_MS, 10) || 15 * 60 * 1000,
+  max: Math.max(parseInt(process.env.RATE_LIMIT_CREATE_POST_MAX, 10) || 10, 10),
+  message: {
+    text: "Too many posts created. Please try again later.",
+    errorCode: "RATE_LIMITED",
+  },
+  prefix: "rl:createpost:",
+});
+
+/**
+ * Friend Request: 3 requests per hour per IP
+ */
+export const friendRequestLimiter = createRateLimiterMiddleware({
+  windowMs: parseInt(process.env.RATE_LIMIT_FRIEND_REQUEST_WINDOW_MS, 10) || 60 * 60 * 1000,
+  max: Math.max(parseInt(process.env.RATE_LIMIT_FRIEND_REQUEST_MAX, 10) || 3, 3),
+  message: {
+    text: "Too many friend request attempts. Please try again later.",
+    errorCode: "RATE_LIMITED",
+  },
+  prefix: "rl:friendrequest:",
+});
+
+/**
+ * Friend Request Decision (accept/reject): 20 requests per 15 minutes per IP
+ */
+export const friendRequestDecisionLimiter = createRateLimiterMiddleware({
+  windowMs: parseInt(process.env.RATE_LIMIT_FRIEND_REQUEST_DECISION_WINDOW_MS, 10) || 15 * 60 * 1000,
+  max: Math.max(parseInt(process.env.RATE_LIMIT_FRIEND_REQUEST_DECISION_MAX, 10) || 20, 20),
+  message: {
+    text: "Too many friend request decisions. Please try again later.",
+    errorCode: "RATE_LIMITED",
+  },
+  prefix: "rl:frienddecision:",
+});
+
+/**
+ * Friend List: 60 requests per 15 minutes per IP
+ */
+export const friendListLimiter = createRateLimiterMiddleware({
+  windowMs: parseInt(process.env.RATE_LIMIT_FRIEND_LIST_WINDOW_MS, 10) || 15 * 60 * 1000,
+  max: Math.max(parseInt(process.env.RATE_LIMIT_FRIEND_LIST_MAX, 10) || 60, 60),
+  message: {
+    text: "Too many friendship list requests. Please try again later.",
+    errorCode: "RATE_LIMITED",
+  },
+  prefix: "rl:friendlist:",
+});
+
+/**
+ * Friend Request Cancel: 10 requests per 15 minutes per IP
+ */
+export const friendRequestCancelLimiter = createRateLimiterMiddleware({
+  windowMs: parseInt(process.env.RATE_LIMIT_FRIEND_REQUEST_CANCEL_WINDOW_MS, 10) || 15 * 60 * 1000,
+  max: Math.max(parseInt(process.env.RATE_LIMIT_FRIEND_REQUEST_CANCEL_MAX, 10) || 10, 10),
+  message: {
+    text: "Too many friend request cancellations. Please try again later.",
+    errorCode: "RATE_LIMITED",
+  },
+  prefix: "rl:friendcancel:",
+});
+
+/**
+ * Unfriend: 20 requests per 15 minutes per IP
+ */
+export const unfriendLimiter = createRateLimiterMiddleware({
+  windowMs: parseInt(process.env.RATE_LIMIT_UNFRIEND_WINDOW_MS, 10) || 15 * 60 * 1000,
+  max: Math.max(parseInt(process.env.RATE_LIMIT_UNFRIEND_MAX, 10) || 20, 20),
+  message: {
+    text: "Too many unfriend attempts. Please try again later.",
+    errorCode: "RATE_LIMITED",
+  },
+  prefix: "rl:unfriend:",
+});
+
+/**
+ * Feed: 60 requests per 15 minutes per IP
+ */
+export const feedLimiter = createRateLimiterMiddleware({
+  windowMs: parseInt(process.env.RATE_LIMIT_FEED_WINDOW_MS, 10) || 15 * 60 * 1000,
+  max: Math.max(parseInt(process.env.RATE_LIMIT_FEED_MAX, 10) || 60, 60),
+  message: {
+    text: "Too many feed requests. Please try again later.",
+    errorCode: "RATE_LIMITED",
+  },
+  prefix: "rl:feed:",
+});

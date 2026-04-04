@@ -17,3 +17,15 @@ export {
 } from "./user-validators.js";
 
 export { emailRules, passwordRules } from "./validation-helpers.js";
+
+export {
+  createPostValidationRules,
+  updatePostValidationRules,
+  postIdValidationRules,
+  feedQueryValidationRules,
+} from "./post-validators.js";
+
+export {
+  sendFriendRequestValidationRules,
+  friendshipIdValidationRules,
+} from "./friendship-validators.js";
