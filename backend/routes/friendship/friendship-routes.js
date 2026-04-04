@@ -2,10 +2,12 @@
 
 import express from "express";
 import { authTokenMiddleware } from "../../middleware/auth/authTokenMiddleware.js";
-import { friendRequestLimiter } from "../../middleware/security/rate-limiters.js";
+import { friendRequestLimiter, friendListLimiter } from "../../middleware/security/rate-limiters.js";
 import { sendFriendRequestValidationRules } from "../../validators/index.js";
 import { handleValidationErrors } from "../../middleware/validation/index.js";
 import { handleSendFriendRequest } from "../../controllers/friendship/send-friend-request.controller.js";
+import { handleGetIncomingFriendRequests } from "../../controllers/friendship/get-incoming-friend-requests.controller.js";
+import { handleGetOutgoingFriendRequests } from "../../controllers/friendship/get-outgoing-friend-requests.controller.js";
 
 const router = express.Router();
 
@@ -17,6 +19,22 @@ router.post(
   sendFriendRequestValidationRules,
   handleValidationErrors,
   handleSendFriendRequest
+);
+
+// GET /api/v1/friends/requests/incoming — List incoming pending requests
+router.get(
+  "/requests/incoming",
+  friendListLimiter,
+  authTokenMiddleware,
+  handleGetIncomingFriendRequests
+);
+
+// GET /api/v1/friends/requests/outgoing — List outgoing pending requests
+router.get(
+  "/requests/outgoing",
+  friendListLimiter,
+  authTokenMiddleware,
+  handleGetOutgoingFriendRequests
 );
 
 export default router;
