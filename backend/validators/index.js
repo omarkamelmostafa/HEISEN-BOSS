@@ -22,6 +22,7 @@ export {
   createPostValidationRules,
   updatePostValidationRules,
   postIdValidationRules,
+  feedQueryValidationRules,
 } from "./post-validators.js";
 
 export {

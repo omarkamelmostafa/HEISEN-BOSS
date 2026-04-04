@@ -1,5 +1,5 @@
 // backend/validators/post-validators.js
-import { body, param } from "express-validator";
+import { body, param, query } from "express-validator";
 
 export const createPostValidationRules = [
   body("content")
@@ -54,4 +54,25 @@ export const postIdValidationRules = [
     .isMongoId()
     .withMessage("Post ID must be a valid MongoDB ObjectId.")
     .trim(),
+];
+
+export const feedQueryValidationRules = [
+  query("cursor")
+    .optional()
+    .notEmpty()
+    .withMessage("Cursor cannot be empty.")
+    .bail()
+    .isString()
+    .withMessage("Cursor must be a string.")
+    .bail()
+    .trim(),
+
+  query("limit")
+    .optional()
+    .notEmpty()
+    .withMessage("Limit cannot be empty.")
+    .bail()
+    .isInt({ min: 1, max: 50 })
+    .withMessage("Limit must be an integer between 1 and 50.")
+    .toInt(),
 ];
