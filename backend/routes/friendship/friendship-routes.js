@@ -8,6 +8,7 @@ import { handleValidationErrors } from "../../middleware/validation/index.js";
 import { handleSendFriendRequest } from "../../controllers/friendship/send-friend-request.controller.js";
 import { handleGetIncomingFriendRequests } from "../../controllers/friendship/get-incoming-friend-requests.controller.js";
 import { handleGetOutgoingFriendRequests } from "../../controllers/friendship/get-outgoing-friend-requests.controller.js";
+import { handleGetFriends } from "../../controllers/friendship/get-friends.controller.js";
 
 const router = express.Router();
 
@@ -35,6 +36,14 @@ router.get(
   friendListLimiter,
   authTokenMiddleware,
   handleGetOutgoingFriendRequests
+);
+
+// GET /api/v1/friends — List accepted friends
+router.get(
+  "/",
+  friendListLimiter,
+  authTokenMiddleware,
+  handleGetFriends
 );
 
 export default router;
