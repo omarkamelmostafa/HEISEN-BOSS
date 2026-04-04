@@ -7,6 +7,7 @@ import {
   friendListLimiter,
   friendRequestDecisionLimiter,
   friendRequestCancelLimiter,
+  unfriendLimiter,
 } from "../../middleware/security/rate-limiters.js";
 import {
   sendFriendRequestValidationRules,
@@ -20,6 +21,7 @@ import { handleGetFriends } from "../../controllers/friendship/get-friends.contr
 import { handleAcceptFriendRequest } from "../../controllers/friendship/accept-friend-request.controller.js";
 import { handleRejectFriendRequest } from "../../controllers/friendship/reject-friend-request.controller.js";
 import { handleCancelFriendRequest } from "../../controllers/friendship/cancel-friend-request.controller.js";
+import { handleUnfriend } from "../../controllers/friendship/unfriend.controller.js";
 
 const router = express.Router();
 
@@ -85,6 +87,16 @@ router.delete(
   friendshipIdValidationRules,
   handleValidationErrors,
   handleCancelFriendRequest
+);
+
+// DELETE /api/v1/friends/:friendshipId — Remove an accepted friendship (unfriend)
+router.delete(
+  "/:friendshipId",
+  unfriendLimiter,
+  authTokenMiddleware,
+  friendshipIdValidationRules,
+  handleValidationErrors,
+  handleUnfriend
 );
 
 export default router;

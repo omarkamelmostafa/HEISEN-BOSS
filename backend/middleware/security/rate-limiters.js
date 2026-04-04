@@ -302,3 +302,16 @@ export const friendRequestCancelLimiter = createRateLimiterMiddleware({
   },
   prefix: "rl:friendcancel:",
 });
+
+/**
+ * Unfriend: 10 requests per 15 minutes per IP
+ */
+export const unfriendLimiter = createRateLimiterMiddleware({
+  windowMs: parseInt(process.env.RATE_LIMIT_UNFRIEND_WINDOW_MS, 10) || 15 * 60 * 1000,
+  max: Math.max(parseInt(process.env.RATE_LIMIT_UNFRIEND_MAX, 10) || 10, 10),
+  message: {
+    text: "Too many unfriend requests. Please try again later.",
+    errorCode: "RATE_LIMITED",
+  },
+  prefix: "rl:unfriend:",
+});
