@@ -328,3 +328,16 @@ export const feedLimiter = createRateLimiterMiddleware({
   },
   prefix: "rl:feed:",
 });
+
+/**
+ * Get Single Post: 60 requests per 15 minutes per IP
+ */
+export const getPostLimiter = createRateLimiterMiddleware({
+  windowMs: parseInt(process.env.RATE_LIMIT_GET_POST_WINDOW_MS, 10) || 15 * 60 * 1000,
+  max: Math.max(parseInt(process.env.RATE_LIMIT_GET_POST_MAX, 10) || 60, 60),
+  message: {
+    text: "Too many post requests. Please try again later.",
+    errorCode: "RATE_LIMITED",
+  },
+  prefix: "rl:getpost:",
+});

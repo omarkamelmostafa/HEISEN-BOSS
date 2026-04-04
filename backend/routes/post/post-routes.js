@@ -2,11 +2,12 @@
 
 import express from "express";
 import { authTokenMiddleware } from "../../middleware/auth/authTokenMiddleware.js";
-import { createPostLimiter, feedLimiter } from "../../middleware/security/rate-limiters.js";
-import { createPostValidationRules, feedQueryValidationRules } from "../../validators/index.js";
+import { createPostLimiter, feedLimiter, getPostLimiter } from "../../middleware/security/rate-limiters.js";
+import { createPostValidationRules, feedQueryValidationRules, postIdValidationRules } from "../../validators/index.js";
 import { handleValidationErrors } from "../../middleware/validation/index.js";
 import { handleCreatePost } from "../../controllers/post/create-post.controller.js";
 import { handleGetFeed } from "../../controllers/post/get-feed.controller.js";
+import { handleGetPost } from "../../controllers/post/get-post.controller.js";
 
 const router = express.Router();
 
@@ -28,6 +29,16 @@ router.get(
   feedQueryValidationRules,
   handleValidationErrors,
   handleGetFeed
+);
+
+// GET /api/v1/posts/:postId
+router.get(
+  "/:postId",
+  getPostLimiter,
+  authTokenMiddleware,
+  postIdValidationRules,
+  handleValidationErrors,
+  handleGetPost
 );
 
 export default router;
