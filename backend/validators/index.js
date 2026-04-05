@@ -24,6 +24,7 @@ export {
   postIdValidationRules,
   feedQueryValidationRules,
   userIdValidationRules,
+  repostCommentValidationRules,
 } from "./post-validators.js";
 
 export {

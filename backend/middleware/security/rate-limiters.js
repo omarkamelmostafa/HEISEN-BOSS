@@ -431,3 +431,16 @@ export const toggleLikeLimiter = createRateLimiterMiddleware({
   },
   prefix: "rl:togglelike:",
 });
+
+/**
+ * Repost: 30 requests per 15 minutes per IP
+ */
+export const repostLimiter = createRateLimiterMiddleware({
+  windowMs: 15 * 60 * 1000,
+  max: 30,
+  message: {
+    text: "Too many repost attempts. Please try again later.",
+    errorCode: "RATE_LIMITED",
+  },
+  prefix: "rl:repost:",
+});

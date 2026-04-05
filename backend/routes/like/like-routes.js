@@ -2,10 +2,11 @@
 
 import express from "express";
 import { authTokenMiddleware } from "../../middleware/auth/authTokenMiddleware.js";
-import { toggleLikeLimiter } from "../../middleware/security/index.js";
-import { postIdValidationRules } from "../../validators/index.js";
+import { toggleLikeLimiter, repostLimiter } from "../../middleware/security/index.js";
+import { postIdValidationRules, repostCommentValidationRules } from "../../validators/index.js";
 import { handleValidationErrors } from "../../middleware/validation/index.js";
 import { handleToggleLike } from "../../controllers/like/toggle-like.controller.js";
+import { handleCreateRepost } from "../../controllers/post/create-repost.controller.js";
 
 const router = express.Router({ mergeParams: true });
 
@@ -17,6 +18,17 @@ router.post(
   postIdValidationRules,
   handleValidationErrors,
   handleToggleLike
+);
+
+// POST /api/v1/posts/:postId/repost
+router.post(
+  "/:postId/repost",
+  repostLimiter,
+  authTokenMiddleware,
+  postIdValidationRules,
+  repostCommentValidationRules,
+  handleValidationErrors,
+  handleCreateRepost
 );
 
 export default router;

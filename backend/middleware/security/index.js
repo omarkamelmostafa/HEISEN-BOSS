@@ -26,5 +26,6 @@ export {
   createCommentLimiter,
   getCommentsLimiter,
   deleteCommentLimiter,
+  repostLimiter,
   toggleLikeLimiter,
 } from "./rate-limiters.js";

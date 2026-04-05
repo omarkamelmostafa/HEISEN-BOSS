@@ -79,6 +79,20 @@ export const feedQueryValidationRules = [
     .toInt(),
 ];
 
+export const repostCommentValidationRules = [
+  body("repostComment")
+    .optional({ values: "falsy" })
+    .notEmpty()
+    .withMessage("Repost comment cannot be empty.")
+    .bail()
+    .isString()
+    .withMessage("Repost comment must be a string.")
+    .bail()
+    .isLength({ max: 500 })
+    .withMessage("Repost comment cannot exceed 500 characters.")
+    .trim(),
+];
+
 export const userIdValidationRules = [
   param("userId")
     .notEmpty()
