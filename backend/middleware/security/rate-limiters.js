@@ -395,6 +395,18 @@ export const createCommentLimiter = createRateLimiterMiddleware({
 });
 
 /**
+ * Delete Comment: 30 requests per 15 minutes per IP
+ */
+export const deleteCommentLimiter = createRateLimiterMiddleware({
+  windowMs: 15 * 60 * 1000,
+  max: 30,
+  message: {
+    text: "Too many comment delete attempts. Please try again later.",
+    errorCode: "RATE_LIMITED",
+  },
+  prefix: "rl:deletecomment:",
+});
+/**
  * Get Comments: 60 requests per 15 minutes per IP
  */
 export const getCommentsLimiter = createRateLimiterMiddleware({
