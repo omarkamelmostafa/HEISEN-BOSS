@@ -78,3 +78,16 @@ export const feedQueryValidationRules = [
     .withMessage("Limit must be an integer between 1 and 50.")
     .toInt(),
 ];
+
+export const userIdValidationRules = [
+  param("userId")
+    .notEmpty()
+    .withMessage("User ID is required.")
+    .bail()
+    .isString()
+    .withMessage("User ID must be a string.")
+    .bail()
+    .isMongoId()
+    .withMessage("User ID must be a valid MongoDB ObjectId.")
+    .trim(),
+];

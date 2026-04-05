@@ -2,8 +2,9 @@
 
 import express from "express";
 import { authTokenMiddleware } from "../../middleware/auth/authTokenMiddleware.js";
-import { createPostLimiter, feedLimiter, getPostLimiter, updatePostLimiter, deletePostLimiter } from "../../middleware/security/rate-limiters.js";
-import { createPostValidationRules, feedQueryValidationRules, postIdValidationRules, updatePostValidationRules } from "../../validators/index.js";
+import { handleGetUserPosts } from "../../controllers/post/get-user-posts.controller.js";
+import { createPostLimiter, feedLimiter, getPostLimiter, updatePostLimiter, deletePostLimiter, getUserPostsLimiter } from "../../middleware/security/rate-limiters.js";
+import { createPostValidationRules, feedQueryValidationRules, postIdValidationRules, updatePostValidationRules, userIdValidationRules } from "../../validators/index.js";
 import { handleValidationErrors } from "../../middleware/validation/index.js";
 import { handleCreatePost } from "../../controllers/post/create-post.controller.js";
 import { handleGetFeed } from "../../controllers/post/get-feed.controller.js";
@@ -31,6 +32,17 @@ router.get(
   feedQueryValidationRules,
   handleValidationErrors,
   handleGetFeed
+);
+
+// GET /api/v1/posts/user/:userId
+router.get(
+  "/user/:userId",
+  getUserPostsLimiter,
+  authTokenMiddleware,
+  userIdValidationRules,
+  feedQueryValidationRules,
+  handleValidationErrors,
+  handleGetUserPosts
 );
 
 // GET /api/v1/posts/:postId

@@ -367,3 +367,16 @@ export const deletePostLimiter = createRateLimiterMiddleware({
   },
   prefix: "rl:deletepost:",
 });
+
+/**
+ * Get User Posts: 60 requests per 15 minutes per IP
+ */
+export const getUserPostsLimiter = createRateLimiterMiddleware({
+  windowMs: parseInt(process.env.RATE_LIMIT_GET_USER_POSTS_WINDOW_MS, 10) || 15 * 60 * 1000,
+  max: Math.max(parseInt(process.env.RATE_LIMIT_GET_USER_POSTS_MAX, 10) || 60, 60),
+  message: {
+    text: "Too many user posts requests. Please try again later.",
+    errorCode: "RATE_LIMITED",
+  },
+  prefix: "rl:getuserposts:",
+});
