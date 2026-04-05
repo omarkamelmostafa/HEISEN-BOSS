@@ -1,6 +1,7 @@
 // backend/use-cases/post/delete-post.use-case.js
 
 import Post from "../../model/Post.js";
+import { CloudinaryService } from "../../services/cloudinaryService.js";
 import logger from "../../utilities/general/logger.js";
 
 /**
@@ -41,6 +42,18 @@ export async function deletePostUseCase({ postId, userId }) {
     post.deletedBy = userId;
 
     await post.save();
+
+    // Best-effort Cloudinary cleanup (does not block success)
+    if (post.imagePublicId) {
+      try {
+        await CloudinaryService.deleteImage(post.imagePublicId);
+      } catch (cleanupError) {
+        logger.warn(
+          { err: cleanupError, postId, imagePublicId: post.imagePublicId },
+          "Failed to cleanup post image from Cloudinary (best-effort)"
+        );
+      }
+    }
 
     return {
       success: true,
