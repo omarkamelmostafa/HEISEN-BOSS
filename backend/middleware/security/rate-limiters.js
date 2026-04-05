@@ -418,3 +418,16 @@ export const getCommentsLimiter = createRateLimiterMiddleware({
   },
   prefix: "rl:getcomments:",
 });
+
+/**
+ * Toggle Like: 30 requests per 15 minutes per IP
+ */
+export const toggleLikeLimiter = createRateLimiterMiddleware({
+  windowMs: 15 * 60 * 1000,
+  max: 30,
+  message: {
+    text: "Too many like actions. Please try again later.",
+    errorCode: "RATE_LIMITED",
+  },
+  prefix: "rl:togglelike:",
+});
