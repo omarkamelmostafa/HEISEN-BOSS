@@ -393,3 +393,16 @@ export const createCommentLimiter = createRateLimiterMiddleware({
   },
   prefix: "rl:createcomment:",
 });
+
+/**
+ * Get Comments: 60 requests per 15 minutes per IP
+ */
+export const getCommentsLimiter = createRateLimiterMiddleware({
+  windowMs: 15 * 60 * 1000,
+  max: 60,
+  message: {
+    text: "Too many comments requests. Please try again later.",
+    errorCode: "RATE_LIMITED",
+  },
+  prefix: "rl:getcomments:",
+});

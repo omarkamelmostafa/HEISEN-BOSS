@@ -24,4 +24,5 @@ export {
   deletePostLimiter,
   getUserPostsLimiter,
   createCommentLimiter,
+  getCommentsLimiter,
 } from "./rate-limiters.js";
