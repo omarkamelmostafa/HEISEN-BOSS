@@ -74,4 +74,26 @@ export class CloudinaryService {
       console.error(`Failed to delete image with publicId ${publicId}:`, error.message);
     }
   }
+
+  static async uploadPostImage(userId, fileBuffer, mimetype) {
+    return new Promise((resolve, reject) => {
+      const uploadStream = cloudinary.uploader.upload_stream(
+        {
+          folder: `users/${userId}/posts`,
+          resource_type: "image",
+          quality: "auto:good",
+          fetch_format: "auto",
+        },
+        (error, result) => {
+          if (error) {
+            console.error(`Cloudinary post upload error for user ${userId}:`, error.message);
+            reject(error);
+          } else {
+            resolve({ url: result.secure_url, publicId: result.public_id });
+          }
+        }
+      );
+      uploadStream.end(fileBuffer);
+    });
+  }
 }

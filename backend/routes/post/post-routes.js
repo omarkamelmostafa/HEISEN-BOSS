@@ -7,6 +7,7 @@ import { createPostLimiter, feedLimiter, getPostLimiter, updatePostLimiter, dele
 import { createPostValidationRules, feedQueryValidationRules, postIdValidationRules, updatePostValidationRules, userIdValidationRules } from "../../validators/index.js";
 import { handleValidationErrors } from "../../middleware/validation/index.js";
 import { handleCreatePost } from "../../controllers/post/create-post.controller.js";
+import { handlePostImageUpload } from "../../middleware/upload/multer-middleware.js";
 import { handleGetFeed } from "../../controllers/post/get-feed.controller.js";
 import { handleGetPost } from "../../controllers/post/get-post.controller.js";
 import { handleUpdatePost } from "../../controllers/post/update-post.controller.js";
@@ -19,6 +20,7 @@ router.post(
   "/",
   createPostLimiter,
   authTokenMiddleware,
+  handlePostImageUpload,
   createPostValidationRules,
   handleValidationErrors,
   handleCreatePost
