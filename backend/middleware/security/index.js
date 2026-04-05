@@ -17,4 +17,11 @@ export {
   friendRequestDecisionLimiter,
   friendListLimiter,
   friendRequestCancelLimiter,
+  unfriendLimiter,
+  feedLimiter,
+  getPostLimiter,
+  updatePostLimiter,
+  deletePostLimiter,
+  getUserPostsLimiter,
+  createCommentLimiter,
 } from "./rate-limiters.js";
