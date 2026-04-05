@@ -30,3 +30,8 @@ export {
   sendFriendRequestValidationRules,
   friendshipIdValidationRules,
 } from "./friendship-validators.js";
+
+export {
+  createCommentValidationRules,
+  commentIdValidationRules,
+} from "./comment-validators.js";
