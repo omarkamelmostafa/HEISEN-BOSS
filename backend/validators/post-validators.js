@@ -78,3 +78,30 @@ export const feedQueryValidationRules = [
     .withMessage("Limit must be an integer between 1 and 50.")
     .toInt(),
 ];
+
+export const repostCommentValidationRules = [
+  body("repostComment")
+    .optional({ values: "falsy" })
+    .notEmpty()
+    .withMessage("Repost comment cannot be empty.")
+    .bail()
+    .isString()
+    .withMessage("Repost comment must be a string.")
+    .bail()
+    .isLength({ max: 500 })
+    .withMessage("Repost comment cannot exceed 500 characters.")
+    .trim(),
+];
+
+export const userIdValidationRules = [
+  param("userId")
+    .notEmpty()
+    .withMessage("User ID is required.")
+    .bail()
+    .isString()
+    .withMessage("User ID must be a string.")
+    .bail()
+    .isMongoId()
+    .withMessage("User ID must be a valid MongoDB ObjectId.")
+    .trim(),
+];

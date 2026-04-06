@@ -60,3 +60,39 @@ export const handleAvatarUpload = (req, res, next) => {
     next();
   });
 };
+
+export const handlePostImageUpload = (req, res, next) => {
+  if (!req.is("multipart/form-data")) {
+    return next();
+  }
+
+  upload.single("image")(req, res, (err) => {
+    if (err instanceof multer.MulterError) {
+      if (err.code === "LIMIT_FILE_SIZE") {
+        return apiResponseManager(req, res, {
+          statusCode: 400,
+          success: false,
+          message: "File size exceeds the 5MB limit",
+          errorCode: "FILE_TOO_LARGE",
+        });
+      } else {
+        return apiResponseManager(req, res, {
+          statusCode: 400,
+          success: false,
+          message: err.message,
+          errorCode: "UPLOAD_ERROR",
+        });
+      }
+    } else if (err) {
+      return apiResponseManager(req, res, {
+        statusCode: 400,
+        success: false,
+        message: err.message,
+        errorCode: "INVALID_FILE_TYPE",
+      });
+    }
+
+    // Post image is optional - don't require file presence
+    next();
+  });
+};

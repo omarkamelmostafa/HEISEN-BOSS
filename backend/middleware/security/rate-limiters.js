@@ -341,3 +341,106 @@ export const getPostLimiter = createRateLimiterMiddleware({
   },
   prefix: "rl:getpost:",
 });
+
+/**
+ * Update Post: 10 requests per 15 minutes per IP
+ */
+export const updatePostLimiter = createRateLimiterMiddleware({
+  windowMs: parseInt(process.env.RATE_LIMIT_UPDATE_POST_WINDOW_MS, 10) || 15 * 60 * 1000,
+  max: Math.max(parseInt(process.env.RATE_LIMIT_UPDATE_POST_MAX, 10) || 10, 10),
+  message: {
+    text: "Too many post update attempts. Please try again later.",
+    errorCode: "RATE_LIMITED",
+  },
+  prefix: "rl:updatepost:",
+});
+
+/**
+ * Delete Post: 10 requests per 15 minutes per IP
+ */
+export const deletePostLimiter = createRateLimiterMiddleware({
+  windowMs: parseInt(process.env.RATE_LIMIT_DELETE_POST_WINDOW_MS, 10) || 15 * 60 * 1000,
+  max: Math.max(parseInt(process.env.RATE_LIMIT_DELETE_POST_MAX, 10) || 10, 10),
+  message: {
+    text: "Too many post delete attempts. Please try again later.",
+    errorCode: "RATE_LIMITED",
+  },
+  prefix: "rl:deletepost:",
+});
+
+/**
+ * Get User Posts: 60 requests per 15 minutes per IP
+ */
+export const getUserPostsLimiter = createRateLimiterMiddleware({
+  windowMs: parseInt(process.env.RATE_LIMIT_GET_USER_POSTS_WINDOW_MS, 10) || 15 * 60 * 1000,
+  max: Math.max(parseInt(process.env.RATE_LIMIT_GET_USER_POSTS_MAX, 10) || 60, 60),
+  message: {
+    text: "Too many user posts requests. Please try again later.",
+    errorCode: "RATE_LIMITED",
+  },
+  prefix: "rl:getuserposts:",
+});
+
+/**
+ * Create Comment: 20 requests per 15 minutes per IP
+ */
+export const createCommentLimiter = createRateLimiterMiddleware({
+  windowMs: parseInt(process.env.RATE_LIMIT_CREATE_COMMENT_WINDOW_MS, 10) || 15 * 60 * 1000,
+  max: Math.max(parseInt(process.env.RATE_LIMIT_CREATE_COMMENT_MAX, 10) || 20, 20),
+  message: {
+    text: "Too many comments created. Please try again later.",
+    errorCode: "RATE_LIMITED",
+  },
+  prefix: "rl:createcomment:",
+});
+
+/**
+ * Delete Comment: 30 requests per 15 minutes per IP
+ */
+export const deleteCommentLimiter = createRateLimiterMiddleware({
+  windowMs: 15 * 60 * 1000,
+  max: 30,
+  message: {
+    text: "Too many comment delete attempts. Please try again later.",
+    errorCode: "RATE_LIMITED",
+  },
+  prefix: "rl:deletecomment:",
+});
+/**
+ * Get Comments: 60 requests per 15 minutes per IP
+ */
+export const getCommentsLimiter = createRateLimiterMiddleware({
+  windowMs: 15 * 60 * 1000,
+  max: 60,
+  message: {
+    text: "Too many comments requests. Please try again later.",
+    errorCode: "RATE_LIMITED",
+  },
+  prefix: "rl:getcomments:",
+});
+
+/**
+ * Toggle Like: 30 requests per 15 minutes per IP
+ */
+export const toggleLikeLimiter = createRateLimiterMiddleware({
+  windowMs: 15 * 60 * 1000,
+  max: 30,
+  message: {
+    text: "Too many like actions. Please try again later.",
+    errorCode: "RATE_LIMITED",
+  },
+  prefix: "rl:togglelike:",
+});
+
+/**
+ * Repost: 30 requests per 15 minutes per IP
+ */
+export const repostLimiter = createRateLimiterMiddleware({
+  windowMs: 15 * 60 * 1000,
+  max: 30,
+  message: {
+    text: "Too many repost attempts. Please try again later.",
+    errorCode: "RATE_LIMITED",
+  },
+  prefix: "rl:repost:",
+});

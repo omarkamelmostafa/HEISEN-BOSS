@@ -23,9 +23,16 @@ export {
   updatePostValidationRules,
   postIdValidationRules,
   feedQueryValidationRules,
+  userIdValidationRules,
+  repostCommentValidationRules,
 } from "./post-validators.js";
 
 export {
   sendFriendRequestValidationRules,
   friendshipIdValidationRules,
 } from "./friendship-validators.js";
+
+export {
+  createCommentValidationRules,
+  commentIdValidationRules,
+} from "./comment-validators.js";

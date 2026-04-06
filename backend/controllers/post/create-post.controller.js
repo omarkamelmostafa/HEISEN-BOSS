@@ -11,7 +11,12 @@ export async function handleCreatePost(req, res) {
   const { content, image } = req.body;
   const userId = req.user.userId;
 
-  const result = await createPostUseCase({ userId, content, image });
+  // Support uploaded file (multipart) or body URL (JSON)
+  const imageFile = req.file
+    ? { buffer: req.file.buffer, mimetype: req.file.mimetype }
+    : undefined;
+
+  const result = await createPostUseCase({ userId, content, image, imageFile });
 
   return sendUseCaseResponse(req, res, result);
 }
