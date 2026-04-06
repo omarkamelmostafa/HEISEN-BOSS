@@ -226,7 +226,8 @@ const postSlice = createSlice({
         state.isMutating = false;
         state.error = action.payload;
       });
-  });
+  },
+});
 
 export const {
   clearPostError,
