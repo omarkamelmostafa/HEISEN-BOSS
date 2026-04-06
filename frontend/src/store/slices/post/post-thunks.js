@@ -37,3 +37,45 @@ export const fetchPostById = createAppThunk(
   },
   "Failed to load post"
 );
+
+/**
+ * Create a new post
+ * Supports both regular post data and FormData for image uploads
+ */
+export const createPost = createAppThunk(
+  "post/createPost",
+  async (postData, { signal }) => {
+    const isFormData = postData instanceof FormData;
+    const response = isFormData
+      ? await postService.createPostWithImage(postData, null, { signal })
+      : await postService.createPost(postData, { signal });
+    return response.data;
+  },
+  "Failed to create post"
+);
+
+/**
+ * Update an existing post
+ * Arg shape: { postId, updateData }
+ */
+export const updatePost = createAppThunk(
+  "post/updatePost",
+  async ({ postId, updateData }, { signal }) => {
+    const response = await postService.updatePost(postId, updateData, { signal });
+    return response.data;
+  },
+  "Failed to update post"
+);
+
+/**
+ * Delete a post by ID
+ * Keeps direct postId so action.meta.arg is simple
+ */
+export const deletePost = createAppThunk(
+  "post/deletePost",
+  async (postId, { signal }) => {
+    const response = await postService.deletePost(postId, { signal });
+    return response.data;
+  },
+  "Failed to delete post"
+);
