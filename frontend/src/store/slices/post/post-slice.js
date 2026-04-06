@@ -1,5 +1,6 @@
 // frontend/src/store/slices/post/post-slice.js
 import { createSlice } from "@reduxjs/toolkit";
+import { fetchFeed, fetchUserPosts, fetchPostById } from "./post-thunks";
 
 const initialState = {
   // ==================== POST LISTS ====================
@@ -56,7 +57,83 @@ const postSlice = createSlice({
       return initialState;
     },
   },
-  // NOTE: extraReducers for thunks will be added in Batch 1B.2
+  extraReducers: (builder) => {
+    // ==================== READ THUNKS: PENDING ====================
+    builder
+      .addCase(fetchFeed.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(fetchUserPosts.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(fetchPostById.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      });
+
+    // ==================== READ THUNKS: FULFILLED ====================
+    builder
+      .addCase(fetchFeed.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.error = null;
+
+        const { posts, hasMore, nextCursor } = action.payload.data;
+
+        if (action.meta.arg?.cursor) {
+          // Append mode: de-duplicate by _id before assignment
+          const existingIds = new Set(state.feedPosts.map((p) => p._id));
+          const newPosts = posts.filter((p) => !existingIds.has(p._id));
+          state.feedPosts.push(...newPosts);
+        } else {
+          // Replace mode: initial load or refresh
+          state.feedPosts = posts;
+        }
+
+        state.feedCursor = nextCursor ?? null;
+        state.feedHasMore = hasMore ?? false;
+      })
+      .addCase(fetchUserPosts.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.error = null;
+
+        const { posts, hasMore, nextCursor } = action.payload.data;
+
+        if (action.meta.arg?.cursor) {
+          // Append mode: de-duplicate by _id before assignment
+          const existingIds = new Set(state.userPosts.map((p) => p._id));
+          const newPosts = posts.filter((p) => !existingIds.has(p._id));
+          state.userPosts.push(...newPosts);
+        } else {
+          // Replace mode: initial load or refresh
+          state.userPosts = posts;
+        }
+
+        state.userPostsCursor = nextCursor ?? null;
+        state.userPostsHasMore = hasMore ?? false;
+      })
+      .addCase(fetchPostById.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.error = null;
+        state.currentPost = action.payload.data.post;
+      });
+
+    // ==================== READ THUNKS: REJECTED ====================
+    builder
+      .addCase(fetchFeed.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
+      })
+      .addCase(fetchUserPosts.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
+      })
+      .addCase(fetchPostById.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
+      });
+  },
 });
 
 export const {
