@@ -570,7 +570,11 @@
     "twoFactorDisabled": "Two-factor authentication disabled",
     "twoFactorUpdateFailed": "Failed to update 2FA",
     "enterPassword": "Please enter your password",
-    "signedOut": "Signed out successfully"
+    "signedOut": "Signed out successfully",
+    "postsCreateSuccess": "Post created successfully",
+    "postsCreateFailed": "Failed to create post",
+    "postsDeleteSuccess": "Post deleted successfully",
+    "postsUpdateSuccess": "Post updated successfully"
   },
   "apiErrors": {
     "ACCOUNT_DEACTIVATED": "Account is deactivated. Please contact support.",
@@ -714,5 +718,33 @@
     "fieldUrl": "{field} must be a valid URL.",
     "fieldArray": "{field} must be an array.",
     "fieldArrayMin": "{field} must contain at least {min} item(s)."
+  },
+  "posts": {
+    "create": {
+      "title": "Create Post",
+      "placeholder": "What's on your mind?",
+      "submit": "Post",
+      "submitting": "Posting..."
+    },
+    "feed": {
+      "title": "Feed"
+    },
+    "card": {
+      "like": "Like",
+      "comment": "Comment",
+      "repost": "Repost",
+      "delete": "Delete",
+      "edit": "Edit",
+      "unknownAuthor": "Unknown Author",
+      "imageAlt": "Post attachment"
+    },
+    "comments": {
+      "title": "Comments",
+      "loadMore": "Load more comments",
+      "noComments": "No comments yet.",
+      "placeholder": "Write a comment...",
+      "submit": "Comment",
+      "submitting": "Posting..."
+    }
   }
 }

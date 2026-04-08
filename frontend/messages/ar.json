@@ -570,7 +570,11 @@
     "twoFactorDisabled": "تم تعطيل المصادقة الثنائية",
     "twoFactorUpdateFailed": "فشل تحديث المصادقة الثنائية",
     "enterPassword": "يرجى إدخال كلمة المرور",
-    "signedOut": "تم تسجيل الخروج بنجاح"
+    "signedOut": "تم تسجيل الخروج بنجاح",
+    "postsCreateSuccess": "تم إنشاء المنشور بنجاح",
+    "postsCreateFailed": "فشل إنشاء المنشور",
+    "postsDeleteSuccess": "تم حذف المنشور بنجاح",
+    "postsUpdateSuccess": "تم تحديث المنشور بنجاح"
   },
   "apiErrors": {
     "MISSING_CREDENTIALS": "البريد الإلكتروني وكلمة المرور مطلوبان.",
@@ -714,5 +718,33 @@
     "fieldUrl": "يجب أن يكون {field} رابطًا صالحًا.",
     "fieldArray": "يجب أن يكون {field} مصفوفة.",
     "fieldArrayMin": "يجب أن يحتوي {field} على عنصر واحد على الأقل."
+  },
+  "posts": {
+    "create": {
+      "title": "إنشاء منشور",
+      "placeholder": "ماذا يدور في ذهنك؟",
+      "submit": "نشر",
+      "submitting": "جاري النشر..."
+    },
+    "feed": {
+      "title": "المنشورات"
+    },
+    "card": {
+      "like": "إعجاب",
+      "comment": "تعليق",
+      "repost": "إعادة نشر",
+      "delete": "حذف",
+      "edit": "تعديل",
+      "unknownAuthor": "كاتب غير معروف",
+      "imageAlt": "مرفق المنشور"
+    },
+    "comments": {
+      "title": "التعليقات",
+      "loadMore": "تحميل المزيد من التعليقات",
+      "noComments": "لا توجد تعليقات بعد.",
+      "placeholder": "اكتب تعليقًا...",
+      "submit": "تعليق",
+      "submitting": "جارٍ النشر..."
+    }
   }
 }

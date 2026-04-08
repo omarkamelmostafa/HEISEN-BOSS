@@ -71,7 +71,13 @@ export const validationMessages = {
     "Password must be a string": "Password must be a string.",
     "rememberMe must be a boolean": "rememberMe must be a boolean",
     "File size exceeds the 5MB limit": "File size exceeds the 5MB limit",
-    "Network Error": "Unable to connect. Check your internet connection."
+    "Network Error": "Unable to connect. Check your internet connection.",
+    "Failed to load feed": "Failed to load feed",
+    "Failed to load user posts": "Failed to load user posts",
+    "Failed to load post": "Failed to load post",
+    "Failed to create post": "Failed to create post",
+    "Failed to update post": "Failed to update post",
+    "Failed to delete post": "Failed to delete post"
   },
   ar: {
     "Email is required": "البريد الإلكتروني مطلوب",
@@ -129,6 +135,12 @@ export const validationMessages = {
     "Password must be a string": "يجب أن تكون كلمة المرور نصًا.",
     "rememberMe must be a boolean": "يجب أن تكون تذكرني قيمة منطقية",
     "File size exceeds the 5MB limit": "حجم الملف يتجاوز حد 5 ميغابايت",
-    "Network Error": "غير قادر على الاتصال. تحقق من اتصالك بالإنترنت."
+    "Network Error": "غير قادر على الاتصال. تحقق من اتصالك بالإنترنت.",
+    "Failed to load feed": "فشل تحميل موجز المنشورات",
+    "Failed to load user posts": "فشل تحميل منشورات المستخدم",
+    "Failed to load post": "فشل تحميل المنشور",
+    "Failed to create post": "فشل إنشاء المنشور",
+    "Failed to update post": "فشل تحديث المنشور",
+    "Failed to delete post": "فشل حذف المنشور"
   },
 };
