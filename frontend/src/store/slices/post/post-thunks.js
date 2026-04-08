@@ -79,3 +79,30 @@ export const deletePost = createAppThunk(
   },
   "Failed to delete post"
 );
+
+/**
+ * Toggle like on a post
+ * Returns { liked, likesCount } in payload.data
+ */
+export const toggleLike = createAppThunk(
+  "post/toggleLike",
+  async (postId, { signal }) => {
+    const response = await postService.toggleLike(postId, { signal });
+    return response.data;
+  },
+  "Failed to toggle like"
+);
+
+/**
+ * Create a repost of an existing post
+ * Arg shape: { postId, repostData = {} }
+ * Returns full repost post object in payload.data.post
+ */
+export const createRepost = createAppThunk(
+  "post/createRepost",
+  async ({ postId, repostData = {} }, { signal }) => {
+    const response = await postService.createRepost(postId, repostData, { signal });
+    return response.data;
+  },
+  "Failed to create repost"
+);

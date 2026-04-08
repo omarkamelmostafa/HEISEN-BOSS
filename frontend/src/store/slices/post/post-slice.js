@@ -1,6 +1,6 @@
 // frontend/src/store/slices/post/post-slice.js
 import { createSlice } from "@reduxjs/toolkit";
-import { fetchFeed, fetchUserPosts, fetchPostById, createPost, updatePost, deletePost } from "./post-thunks";
+import { fetchFeed, fetchUserPosts, fetchPostById, createPost, updatePost, deletePost, toggleLike, createRepost } from "./post-thunks";
 
 const initialState = {
   // ==================== POST LISTS ====================
@@ -147,6 +147,14 @@ const postSlice = createSlice({
       .addCase(deletePost.pending, (state) => {
         state.isMutating = true;
         state.error = null;
+      })
+      .addCase(toggleLike.pending, (state) => {
+        state.isMutating = true;
+        state.error = null;
+      })
+      .addCase(createRepost.pending, (state) => {
+        state.isMutating = true;
+        state.error = null;
       });
 
     // ==================== MUTATION THUNKS: FULFILLED ====================
@@ -210,6 +218,72 @@ const postSlice = createSlice({
             state.currentPost = null;
           }
         }
+      })
+      .addCase(toggleLike.fulfilled, (state, action) => {
+        state.isMutating = false;
+        state.error = null;
+
+        const postId = action.meta.arg;
+        const { liked, likesCount } = action.payload.data;
+
+        if (postId) {
+          // Patch feedPosts
+          const feedPost = state.feedPosts.find((p) => p._id === postId);
+          if (feedPost) {
+            feedPost.isLiked = liked;
+            feedPost.likesCount = likesCount;
+          }
+
+          // Patch userPosts
+          const userPost = state.userPosts.find((p) => p._id === postId);
+          if (userPost) {
+            userPost.isLiked = liked;
+            userPost.likesCount = likesCount;
+          }
+
+          // Patch currentPost
+          if (state.currentPost && state.currentPost._id === postId) {
+            state.currentPost.isLiked = liked;
+            state.currentPost.likesCount = likesCount;
+          }
+        }
+      })
+      .addCase(createRepost.fulfilled, (state, action) => {
+        state.isMutating = false;
+        state.error = null;
+
+        const originalPostId = action.meta.arg.postId;
+        const repostPost = action.payload.data.post;
+
+        // Prepend repost to feedPosts if not already present
+        if (repostPost && repostPost._id) {
+          const existsInFeed = state.feedPosts.some((p) => p._id === repostPost._id);
+          if (!existsInFeed) {
+            state.feedPosts.unshift(repostPost);
+          }
+        }
+
+        // Patch original post's repostsCount across all collections
+        if (originalPostId && action.payload.data.originalPost?.repostsCount !== undefined) {
+          const { repostsCount } = action.payload.data.originalPost;
+
+          // Patch in feedPosts
+          const feedPost = state.feedPosts.find((p) => p._id === originalPostId);
+          if (feedPost) {
+            feedPost.repostsCount = repostsCount;
+          }
+
+          // Patch in userPosts
+          const userPost = state.userPosts.find((p) => p._id === originalPostId);
+          if (userPost) {
+            userPost.repostsCount = repostsCount;
+          }
+
+          // Patch in currentPost
+          if (state.currentPost && state.currentPost._id === originalPostId) {
+            state.currentPost.repostsCount = repostsCount;
+          }
+        }
       });
 
     // ==================== MUTATION THUNKS: REJECTED ====================
@@ -223,6 +297,14 @@ const postSlice = createSlice({
         state.error = action.payload;
       })
       .addCase(deletePost.rejected, (state, action) => {
+        state.isMutating = false;
+        state.error = action.payload;
+      })
+      .addCase(toggleLike.rejected, (state, action) => {
+        state.isMutating = false;
+        state.error = action.payload;
+      })
+      .addCase(createRepost.rejected, (state, action) => {
         state.isMutating = false;
         state.error = action.payload;
       });

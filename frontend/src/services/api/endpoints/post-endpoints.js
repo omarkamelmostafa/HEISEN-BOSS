@@ -43,7 +43,45 @@ class PostEndpoints {
     return `${this.PREFIX}/${postId}`;
   }
 
-  // ==================== QUERY PARAMETER BUILDERS ====================
+  // ==================== ENGAGEMENT ENDPOINTS ====================
+
+  /** POST /posts/:postId/like - Toggle like on post */
+  LIKE(postId) {
+    return `${this.PREFIX}/${postId}/like`;
+  }
+
+  /** POST /posts/:postId/repost - Create repost */
+  REPOST(postId) {
+    return `${this.PREFIX}/${postId}/repost`;
+  }
+
+  /** GET /posts/:postId/comments - Get comments */
+  COMMENTS(postId) {
+    return `${this.PREFIX}/${postId}/comments`;
+  }
+
+  /** POST /posts/:postId/comments - Create comment */
+  COMMENT(postId) {
+    return `${this.PREFIX}/${postId}/comments`;
+  }
+
+  /** DELETE /posts/:postId/comments/:commentId - Delete comment */
+  DELETE_COMMENT(postId, commentId) {
+    return `${this.PREFIX}/${postId}/comments/${commentId}`;
+  }
+
+  // ==================== ENGAGEMENT PAGINATION HELPERS ====================
+
+  /**
+   * Build comments URL with pagination
+   * @param {string} postId - Post ID
+   * @param {string} [cursor] - Cursor for pagination
+   * @param {number} [limit=10] - Items per page
+   * @returns {string} Comments URL with query params
+   */
+  commentsWithPagination(postId, cursor = null, limit = 10) {
+    return this.withCursorPagination(this.COMMENTS(postId), cursor, limit);
+  }
 
   /**
    * Build URL with query parameters

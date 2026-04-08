@@ -127,6 +127,84 @@ class PostService {
     );
     return normalizeResponse(response);
   }
+
+  // ==================== ENGAGEMENT OPERATIONS ====================
+
+  /**
+   * Toggle like on a post (like/unlike)
+   * @param {string} postId - Post ID
+   * @param {Object} [config={}] - Axios request config
+   * @returns {Promise<Object>} Normalized response
+   */
+  async toggleLike(postId, config = {}) {
+    const response = await privateClient.post(
+      postEndpoints.LIKE(postId),
+      {},
+      config
+    );
+    return normalizeResponse(response);
+  }
+
+  /**
+   * Create a repost of a post
+   * @param {string} postId - Post ID to repost
+   * @param {Object} [repostData={}] - Optional repost data (repostComment)
+   * @param {Object} [config={}] - Axios request config
+   * @returns {Promise<Object>} Normalized response
+   */
+  async createRepost(postId, repostData = {}, config = {}) {
+    const response = await privateClient.post(
+      postEndpoints.REPOST(postId),
+      repostData,
+      config
+    );
+    return normalizeResponse(response);
+  }
+
+  /**
+   * Get comments for a post with cursor-based pagination
+   * @param {string} postId - Post ID
+   * @param {string} [cursor=null] - Cursor for pagination (MongoDB ObjectId)
+   * @param {number} [limit=10] - Number of comments to fetch (1-50)
+   * @param {Object} [config={}] - Axios request config
+   * @returns {Promise<Object>} Normalized response
+   */
+  async getComments(postId, cursor = null, limit = 10, config = {}) {
+    const url = postEndpoints.commentsWithPagination(postId, cursor, limit);
+    const response = await privateClient.get(url, config);
+    return normalizeResponse(response);
+  }
+
+  /**
+   * Create a comment on a post
+   * @param {string} postId - Post ID
+   * @param {Object} commentData - Comment data ({ content })
+   * @param {Object} [config={}] - Axios request config
+   * @returns {Promise<Object>} Normalized response
+   */
+  async createComment(postId, commentData, config = {}) {
+    const response = await privateClient.post(
+      postEndpoints.COMMENT(postId),
+      commentData,
+      config
+    );
+    return normalizeResponse(response);
+  }
+
+  /**
+   * Delete a comment
+   * @param {string} postId - Post ID
+   * @param {string} commentId - Comment ID
+   * @param {Object} [config={}] - Axios request config
+   * @returns {Promise<Object>} Normalized response
+   */
+  async deleteComment(postId, commentId, config = {}) {
+    const response = await privateClient.delete(
+      postEndpoints.DELETE_COMMENT(postId, commentId),
+      config
+    );
+    return normalizeResponse(response);
+  }
 }
 
 // Singleton instance
